@@ -1,0 +1,76 @@
+---
+title: "Data memo"
+format: pdf
+editor: visual
+---
+# PSTAT 131 Final Project Data Memo
+
+## What does it include?
+The Adult Census Income dataset contains demographic, educational, and employment-related information about individuals. Variables include age, education level, occupation, work class, marital status, hours worked per week, capital gain and loss, sex, race, native country, and income category. The response variable is income, which indicates whether an individual's annual income is <=50K or >50K.
+
+## Where and how will you be obtaining it? Include the link and source.
+I obtained the dataset from Kaggle. It is based on the Adult Census Income dataset from the UCI Machine Learning Repository and was originally extracted from the 1994 Census database.
+Kaggle source: https://www.kaggle.com/datasets/uciml/adult-census-income
+
+## About how many observations? How many predictors?
+The dataset I am using contains 32,561 observations. There are 14 possible predictor variables and one response variable. So there are 15 variables total.
+
+## What types of variables will you be working with?
+I will work with both quantitative and categorical variables.
+Quantitative variables include: age, fnlwgt, education.num, capital.gain, capital.loss, hours.per.week=
+Categorical variables include: workclass, education, marital.status, occupation, relationship, race, sex, native.country
+The response variable income is also categorical with two levels, which is <=50K and >50K.
+
+## Is there any missing data? About how much? Do you have an idea for how to handle it?
+Yes. Some missing values are originally represented by "?" rather than NA.
+I will first convert "?" to NA and use the naniar package to examine the missing-data pattern.
+```{r}
+library(tidyverse)
+library(naniar)
+
+adult <- read_csv("E:/PSTAT 131/adult.csv", na = "?")
+
+vis_miss(adult)
+miss_var_summary(adult)
+```
+There are 1,843 in occupation (5.66%), 1,836 in workclass(by approx 5.64%), and 583 in native.country (1.79%).
+Since the overall amount of missing data is not very large, I plan to remove observations with missing values.
+
+## What variable(s) are you interested in predicting? What question(s) are you interested in answering?
+I am interested in predicting whether an individual's annual income is greater than $50,000.
+My research question is: How well can demographic, educational, and employment-related characteristics classify whether an individual's annual income is greater than $50,000?
+
+## Name your response/outcome variable(s) and briefly describe it/them.
+My response variable is income and it is a binary categorical variable.
+<=50K: annual income of $50,000 or less
+>50K: annual income greater than $50,000
+
+## Will these questions be best answered with a classification or regression approach?
+I wanna use classification approach, because the response variable income is categorical rather than continuous and the goal is to classify an individual into either the <=50K group or the >50K group.
+
+## Which predictors do you think will be especially useful?
+Some predictors that I expect to be especially useful include age, education, education.num, occupation, workclass, hours.per.week, and capital.gain and capital.loss. One issue I will need to consider is that education and education.num contain closely related information, so it may not be necessary to include both in the same model. I will investigate this during EDA.
+
+## Is the goal of your model descriptive, predictive, inferential, or a combination? Explain.
+The goal is a combination of descriptive and predictive analysis. The descriptive part will use EDA to understand patterns in the data and identify variables that appear to be related to income category. The predictive part will use classification methods to determine how well these characteristics can distinguish individuals with income above 50,000 from those with income at or below 50,000. I do not plan to make causal conclusions from the results. I will describe associations between variables rather than claim that a particular characteristic causes higher income.
+
+## When do you plan on having your data set loaded, beginning your exploratory data analysis, etc?
+I have already downloaded and loaded the dataset into R and begun checking its structure and missing values. My next step is to complete data cleaning and begin exploratory data analysis.
+
+## Provide a general timeline for the rest of the quarter.
+Week 3: Finish loading and cleaning the dataset, check missing values, variable types, and unusual observations. 
+
+Week 4: Conduct exploratory data analysis. I will first examine the distribution of the response variable and the distributions of the main quantitative predictors. I will then explore relationships between income and variables such as age, education, occupation, work class, and hours worked per week. I will also examine relationships among predictors and look for unusual observations or variables that may need transformations.
+
+Week 5: I will prepare the data for modeling. This may include converting categorical variables to factors, deciding how to handle missing observations, selecting predictors, and dividing the data into training and testing sets.
+
+Week 6: I will then fit and compare classification methods. I will evaluate the models using appropriate measures for classification and investigate which predictors appear to be most useful. Then choose the most appropriate model, create the final figures and tables, interpret the results, discuss limitations, and complete the written report.
+
+## Are there any problems or difficult aspects of the project you anticipate?
+One concern is the missing data in `workclass`, `occupation`, and `native.country`. I need to determine whether removing observations with missing values is appropriate or whether another method would be better. Another concern is that the response variable is somewhat imbalanced. There are many more individuals earning <=50K than >50K, so classification accuracy by itself may not be enough to evaluate the models.
+There are also some variables that require additional consideration. For example, education and education.num contain very similar information, so I may not want to use both in the same model. The variable fnlwgt is a Census sampling weight rather than a direct characteristic of an individual, so I also need to determine whether it should be included as a predictor.
+
+## Any specific questions you have for me/the instructional team?
+One question I have is whether it would be appropriate to remove observations containing missing values since only a relatively small proportion of the dataset is affected. I also have question on whether fnlwgt, the Census sampling weight variable, should be included as a predictor in the classification models. 
+
+

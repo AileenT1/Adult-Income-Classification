@@ -1,0 +1,91 @@
+ADULT INCOME CLASSIFICATION CODEBOOK
+====================================
+
+Source
+------
+The CSV is a Kaggle-hosted copy of the Adult dataset from the UCI Machine
+Learning Repository. The data were extracted from the 1994 United States
+Census database. Missing categorical values are represented by "?" in the
+raw CSV and are imported as NA.
+
+Outcome encoding in the processed data
+--------------------------------------
+high      Annual income is greater than $50,000.
+not_high  Annual income is at most $50,000.
+
+Raw variables
+-------------
+age
+  Integer. Age in years. Retained as a demographic predictor.
+
+workclass
+  Categorical. Employment sector or work arrangement. Raw levels:
+  Federal-gov, Local-gov, Never-worked, Private, Self-emp-inc,
+  Self-emp-not-inc, State-gov, Without-pay, and ? (missing). Retained.
+
+fnlwgt
+  Integer. Census final sampling weight. Excluded because it is a survey
+  weight rather than an individual demographic, educational, or employment
+  characteristic.
+
+education
+  Categorical. Highest educational credential, with levels Preschool,
+  1st-4th, 5th-6th, 7th-8th, 9th, 10th, 11th, 12th, HS-grad,
+  Some-college, Assoc-voc, Assoc-acdm, Bachelors, Masters, Prof-school,
+  and Doctorate. Excluded because education_num contains the same ordered
+  information.
+
+education.num / education_num
+  Integer from 1 through 16. Ordered encoding of education, from Preschool
+  through Doctorate. Retained as an educational predictor.
+
+marital.status / marital_status
+  Categorical. Divorced, Married-AF-spouse, Married-civ-spouse,
+  Married-spouse-absent, Never-married, Separated, or Widowed. Retained.
+
+occupation
+  Categorical. Adm-clerical, Armed-Forces, Craft-repair, Exec-managerial,
+  Farming-fishing, Handlers-cleaners, Machine-op-inspct, Other-service,
+  Priv-house-serv, Prof-specialty, Protective-serv, Sales, Tech-support,
+  Transport-moving, or ? (missing). Retained.
+
+relationship
+  Categorical. Husband, Not-in-family, Other-relative, Own-child, Unmarried,
+  or Wife. Describes relationship to the household reference person. Retained.
+
+race
+  Categorical. Amer-Indian-Eskimo, Asian-Pac-Islander, Black, Other, or White.
+  Retained as a demographic predictor; interpretation requires ethical care.
+
+sex
+  Categorical. Female or Male in the original data. Retained as a demographic
+  predictor; interpretation requires ethical care.
+
+capital.gain / capital_gain
+  Integer. Annual capital gains in US dollars. Zero means no recorded gain.
+  Retained as a financial/employment-related predictor.
+
+capital.loss / capital_loss
+  Integer. Annual capital losses in US dollars. Zero means no recorded loss.
+  Retained as a financial/employment-related predictor.
+
+hours.per.week / hours_per_week
+  Integer. Usual number of hours worked per week. Retained.
+
+native.country / native_country
+  Categorical. Country of birth. The raw data contain 41 observed countries
+  plus ? for missing values. Rare countries are combined within modeling
+  recipes, separately inside each resample. Retained as a demographic
+  predictor.
+
+income
+  Binary categorical response. Raw values are <=50K and >50K. Processed values
+  are not_high and high, respectively. high is the positive event.
+
+Processed datasets
+------------------
+adult_clean.csv contains 30,139 complete, unique observations, the binary
+outcome, and 12 retained predictors. Rows containing missing values are
+removed. Exact duplicate raw records are removed before complete-case
+selection.
+
